@@ -1,33 +1,86 @@
-#
-# This is the user-interface definition of a Shiny web application. You can
-# run the application by clicking 'Run App' above.
-#
-# Find out more about building applications with Shiny here:
-#
-#    http://shiny.rstudio.com/
-#
-
 library(shiny)
+library(shinydashboard)
+header <- dashboardHeader(title = "مرکز پژوهش‌ها: داشبورد اطلاعات هزینه و درآمد "
+                          # ,dropdownMenu(type = "messages",
+                          #   messageItem(
+                          # 	from = "Sales Dept",
+                          # 	message = "Sales are steady this month."
+                          #   ),
+                          #   messageItem(
+                          # 	from = "New User",
+                          # 	message = "How do I register?",
+                          # 	icon = icon("question"),
+                          # 	time = "13:45"
+                          #   ),
+                          #   messageItem(
+                          # 	from = "Support",
+                          # 	message = "The new server is ready.",
+                          # 	icon = icon("life-ring"),
+                          # 	time = "2014-12-01"
+                          #   )
+                          # )
+)
 
-# Define UI for application that draws a histogram
-shinyUI(fluidPage(
+sidebar <- dashboardSidebar(
+    sidebarMenu(dir="rtl",align="right",
+        menuItem("آماره‌های ویژگی‌های افراد", tabName = "indivdemostats", icon = icon("user")),
+        menuItem("آماره‌های ویژگی‌های خانوارها", tabName = "hhdemostats", icon = icon("users")),
+        menuItem("آماره‌های ویژگی‌های مسکن", tabName = "housestats", icon = icon("home"))
+    )
+)
 
-    # Application title
-    titlePanel("Old Faithful Geyser Data"),
-
-    # Sidebar with a slider input for number of bins
-    sidebarLayout(
-        sidebarPanel(
-            sliderInput("bins",
-                        "Number of bins:",
-                        min = 1,
-                        max = 50,
-                        value = 30)
+body <- dashboardBody(dir="rtl",
+    tabItems(
+        # First tab content
+        tabItem(tabName = "indivdemostats",
+                h2("آماره‌های افراد در اینجا!")
         ),
 
-        # Show a plot of the generated distribution
-        mainPanel(
-            plotOutput("distPlot")
-        )
+        # Second tab content
+        tabItem(tabName = "hhdemostats",
+                fluidRow(
+                    box(status = "primary",solidHeader = TRUE,
+                        title = "انتخاب سال",
+                        selectInput(inputId="slcT2Year",label="سال",
+                                    choices=list(1396,1397))
+                    ),
+                    box(status = "primary", solidHeader =TRUE,
+                        title = "انتخاب متغیرها",
+                        selectInput("slcT2Var","متغیرها",
+                                    list(`Education`=list("HLiterate","HStudent","HEduYears"),
+                                         `Activity`=list("UHnemployed","HEmployed"),
+                                         "Size","NKids","NInfants"),
+                                    selected="HEduYears",
+                                    multiple=TRUE)
+                    ),
+                    box(status="primary", solidHeader = TRUE,
+                        title = "دسته‌بندی با",
+                        selectInput("slcT2Grp","دسته‌بندی با",
+                                    list("HSex","Region","ProvinceCode"),
+                                    selected = "Region",
+                                    multiple = TRUE)
+                    ),
+                    box(status="primary", solidHeader = TRUE,
+                        title = "آماره",
+                        selectInput("slcT2Stat","آماره",
+                                    list("mean","median","min","max"),
+                                    selected = "mean",
+                                    multiple = FALSE)
+                    ),
+                    box(status = "primary",solidHeader = TRUE,
+                        dataTableOutput("tblT2Stats")),
+                    box(status = "primary",solidHeader = TRUE,
+                        plotOutput("pltT2barchart"))
+
+                )
+
+        ),
+
+        tabItem(tabName = "housestats",
+                h2("آماره‌های ویژگی‌های مسکن در اینجا!"))
     )
-))
+)
+
+dashboardPage(header, sidebar, body)
+
+

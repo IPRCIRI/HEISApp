@@ -1,26 +1,51 @@
-#
-# This is the server logic of a Shiny web application. You can run the
-# application by clicking 'Run App' above.
-#
-# Find out more about building applications with Shiny here:
-#
-#    http://shiny.rstudio.com/
-#
-
 library(shiny)
+library(shinydashboard)
+library(data.table)
+library(ggplot2)
+app_server <- function(input, output,session) {
+    # List the first level callModules here
 
-# Define server logic required to draw a histogram
-shinyServer(function(input, output) {
+    output$tblT2Stats <- renderDataTable({
+        y <- input$slcT2Year
+        vs <- input$slcT2Var
+        gs <- input$slcT2Grp
+        st <- input$slcT2Stat
 
-    output$distPlot <- renderPlot({
+        fn <- paste0("data/Y",substr(y,3,4),"Merged4CBN.rda")
+        load(fn)
 
-        # generate bins based on input$bins from ui.R
-        x    <- faithful[, 2]
-        bins <- seq(min(x), max(x), length.out = input$bins + 1)
+        fnc <- get(st)
 
-        # draw the histogram with the specified number of bins
-        hist(x, breaks = bins, col = 'darkgray', border = 'white')
-
+        MD[,lapply(.SD,fnc), by=gs,.SDcols=vs]
     })
 
-})
+    output$pltT2barchart <- renderPlot({
+
+        y <- input$slcT2Year
+        vs <- input$slcT2Var
+        gs <- input$slcT2Grp
+        st <- input$slcT2Stat
+
+        fn <- paste0("data/Y",substr(y,3,4),"Merged4CBN.rda")
+        load(fn)
+
+        fnc <- get(st)
+
+        SD <- MD[,lapply(.SD,fnc), by=gs,.SDcols=vs]
+
+        if(length(gs)>1){
+            SD[,NewVar:=do.call(paste0,.SD),.SDcols=gs]
+            ggplot(SD) +  geom_col(aes_string(x="NewVar",y=vs))
+
+        }else{
+            ggplot(SD) +  geom_col(aes_string(x=gs,y=vs))
+
+        }
+    })
+
+    session$onSessionEnded(function() {
+            stopApp()
+        #    q("no")
+    })
+
+}

@@ -1,4 +1,4 @@
-library(shiny)
+﻿library(shiny)
 library(shinydashboard)
 header <- dashboardHeader(title = "مرکز پژوهش‌ها: داشبورد اطلاعات هزینه و درآمد "
                           # ,dropdownMenu(type = "messages",
@@ -25,7 +25,9 @@ sidebar <- dashboardSidebar(
     sidebarMenu(dir="rtl",align="right",
         menuItem("آماره‌های ویژگی‌های افراد", tabName = "indivdemostats", icon = icon("user")),
         menuItem("آماره‌های ویژگی‌های خانوارها", tabName = "hhdemostats", icon = icon("users")),
-        menuItem("آماره‌های ویژگی‌های مسکن", tabName = "housestats", icon = icon("home"))
+        menuItem("آماره‌های ویژگی‌های مسکن", tabName = "housestats", icon = icon("home")),
+        menuItem("آماره‌های هزینه ها", tabName = "Expendituresstats", icon = icon("money")),
+        menuItem("آماره‌های درآمدها", tabName = "Incomesstats", icon = icon("calendar"))
     )
 )
 
@@ -76,11 +78,21 @@ body <- dashboardBody(dir="rtl",
 
         ),
 
+       # Third tab content
         tabItem(tabName = "housestats",
-                h2("آماره‌های ویژگی‌های مسکن در اینجا!"))
-    )
-)
+                h2("آماره‌های ویژگی‌های مسکن در اینجا!")),
 
+
+       # Forth tab content
+        tabItem(tabName = "Expendituresstats",
+                h2("آماره‌های هزینه ها در اینجا!")),
+
+
+       # Fifth tab content
+        tabItem(tabName = "Incomesstats",
+                h2("آماره‌های درامدها در اینجا!"))
+)
+)
 dashboardPage(header, sidebar, body)
 
 

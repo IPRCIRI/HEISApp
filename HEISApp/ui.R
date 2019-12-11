@@ -1,4 +1,4 @@
-﻿library(shiny)
+library(shiny)
 library(shinydashboard)
 header <- dashboardHeader(title = "مرکز پژوهش‌ها: داشبورد اطلاعات هزینه و درآمد "
                           # ,dropdownMenu(type = "messages",
@@ -23,8 +23,8 @@ header <- dashboardHeader(title = "مرکز پژوهش‌ها: داشبورد ا
 
 sidebar <- dashboardSidebar(
     sidebarMenu(dir="rtl",align="right",
-        menuItem("آماره‌های ویژگی‌های افراد", tabName = "indivdemostats", icon = icon("user")),
         menuItem("آماره‌های ویژگی‌های خانوارها", tabName = "hhdemostats", icon = icon("users")),
+        menuItem("آماره‌های ویژگی‌های افراد", tabName = "indivdemostats", icon = icon("user")),
         menuItem("آماره‌های ویژگی‌های مسکن", tabName = "housestats", icon = icon("home")),
         menuItem("آماره‌های هزینه ها", tabName = "Expendituresstats", icon = icon("money")),
         menuItem("آماره‌های درآمدها", tabName = "Incomesstats", icon = icon("calendar"))
@@ -33,12 +33,9 @@ sidebar <- dashboardSidebar(
 
 body <- dashboardBody(dir="rtl",
     tabItems(
-        # First tab content
-        tabItem(tabName = "indivdemostats",
-                h2("آماره‌های افراد در اینجا!")
-        ),
 
-        # Second tab content
+
+        # First tab content
         tabItem(tabName = "hhdemostats",
                 fluidRow(
                     box(status = "primary",solidHeader = TRUE,
@@ -50,8 +47,11 @@ body <- dashboardBody(dir="rtl",
                         title = "انتخاب متغیرها",
                         selectInput("slcT2Var","متغیرها",
                                     list(`Education`=list("HLiterate","HStudent","HEduYears"),
-                                         `Activity`=list("UHnemployed","HEmployed"),
-                                         "Size","NKids","NInfants"),
+                                         `Activity`=list("UHnemployed","HEmployed",
+                                                         "Income without Work","Student",
+                                                         "HouseKeeper","Other"),
+                                         `Other`=list("Size","NKids","NInfants",
+                                                      "Month","Quarter")),
                                     selected="HEduYears",
                                     multiple=TRUE)
                     ),
@@ -76,6 +76,11 @@ body <- dashboardBody(dir="rtl",
 
                 )
 
+        ),
+
+        # Second tab content
+        tabItem(tabName = "indivdemostats",
+                h2("آماره‌های افراد در اینجا!")
         ),
 
        # Third tab content

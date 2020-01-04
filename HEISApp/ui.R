@@ -1,25 +1,6 @@
 library(shiny)
 library(shinydashboard)
-header <- dashboardHeader(title = "مرکز پژوهش‌ها: داشبورد اطلاعات هزینه و درآمد "
-                          # ,dropdownMenu(type = "messages",
-                          #   messageItem(
-                          # 	from = "Sales Dept",
-                          # 	message = "Sales are steady this month."
-                          #   ),
-                          #   messageItem(
-                          # 	from = "New User",
-                          # 	message = "How do I register?",
-                          # 	icon = icon("question"),
-                          # 	time = "13:45"
-                          #   ),
-                          #   messageItem(
-                          # 	from = "Support",
-                          # 	message = "The new server is ready.",
-                          # 	icon = icon("life-ring"),
-                          # 	time = "2014-12-01"
-                          #   )
-                          # )
-)
+header <- dashboardHeader(title = "مرکز پژوهش‌ها: داشبورد اطلاعات هزینه و درآمد ")
 
 sidebar <- dashboardSidebar(
     sidebarMenu(dir="rtl",align="right",
@@ -41,7 +22,8 @@ body <- dashboardBody(dir="rtl",
                     box(status = "primary",solidHeader = TRUE,
                         title = "انتخاب سال",
                         selectInput(inputId="slcT2Year",label="سال",
-                                    choices=list(1396,1397))
+                                    choices=list(1390,1391,1392,1393,
+                                                 1394,1395,1396,1397))
                     ),
                     box(status = "primary", solidHeader =TRUE,
                         title = "انتخاب متغیرها",
@@ -50,15 +32,17 @@ body <- dashboardBody(dir="rtl",
                                          `Activity`=list("UHnemployed","HEmployed",
                                                          "Income without Work","Student",
                                                          "HouseKeeper","Other"),
-                                         `Other`=list("Size","NKids","NInfants",
-                                                      "Month","Quarter")),
-                                    selected="HEduYears",
+                                         `Dimension`=list("Size","NKids","NInfants"),
+                                         `Time`=list("Month","Quarter")),
+                                    selected="Size",
                                     multiple=TRUE)
                     ),
                     box(status="primary", solidHeader = TRUE,
                         title = "دسته‌بندی با",
                         selectInput("slcT2Grp","دسته‌بندی با",
-                                    list("HSex","Region","ProvinceCode"),
+                                    list("HSex","Region","ProvinceCode",
+                                         "HMarritalState","HActivityState",
+                                         "HEduLevel"),
                                     selected = "Region",
                                     multiple = TRUE)
                     ),

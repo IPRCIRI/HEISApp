@@ -1,6 +1,18 @@
 library(shiny)
 library(shinydashboard)
-header <- dashboardHeader(title = "مرکز پژوهش‌ها: داشبورد اطلاعات هزینه و درآمد "
+library(data.table)
+library(ggplot2)
+library(shinyTree)
+library(shiny.i18n)
+i18n <- Translator$new(translation_csvs_path = "./translations/")
+i18n$set_translation_language("fa")
+
+varlist <- list(`Education`=list(i18n$t("HLiterate"),"HStudent","HEduYears"),
+                `Activity`=list("UHnemployed","HEmployed"),
+                "Size","NKids","NInfants")
+names(varlist)[names(varlist)=="Education"] <- i18n$t("Education")
+
+header <- dashboardHeader(title = i18n$t("title")
                           # ,dropdownMenu(type = "messages",
                           #   messageItem(
                           # 	from = "Sales Dept",
@@ -18,22 +30,25 @@ header <- dashboardHeader(title = "مرکز پژوهش‌ها: داشبورد ا
                           # 	icon = icon("life-ring"),
                           # 	time = "2014-12-01"
                           #   )
-                          # )
+                          #)
 )
 
-sidebar <- dashboardSidebar(
-    sidebarMenu(dir="rtl",align="right",
-        menuItem("آماره‌های ویژگی‌های افراد", tabName = "indivdemostats", icon = icon("user")),
-        menuItem("آماره‌های ویژگی‌های خانوارها", tabName = "hhdemostats", icon = icon("users")),
-        menuItem("آماره‌های ویژگی‌های مسکن", tabName = "housestats", icon = icon("home"))
-    )
+ sidebar <- dashboardSidebar(
+     sidebarMenu(dir="rtl",align="right",
+        menuItem(i18n$t("indivdemostats"), tabName = "indivdemostats", icon = icon("user")),
+        menuItem(i18n$t("hhdemostats"), tabName = "hhdemostats", icon = icon("users")),
+        menuItem(i18n$t("housestats"), tabName = "housestats", icon = icon("home")),
+        menuItem(i18n$t("indivincome"), tabName = "indivincome", icon = icon("home")),
+        menuItem(i18n$t("hhincome"), tabName = "hhincome", icon = icon("home")),
+        menuItem(i18n$t("hhexpstats"), tabName = "hhexpstats", icon = icon("home"))
+     )
 )
 
 body <- dashboardBody(dir="rtl",
     tabItems(
         # First tab content
         tabItem(tabName = "indivdemostats",
-                h2("آماره‌های افراد در اینجا!")
+                h2("آمارههای افراد در اینجا!")
         ),
 
         # Second tab content
@@ -47,15 +62,13 @@ body <- dashboardBody(dir="rtl",
                     box(status = "primary", solidHeader =TRUE,
                         title = "انتخاب متغیرها",
                         selectInput("slcT2Var","متغیرها",
-                                    list(`Education`=list("HLiterate","HStudent","HEduYears"),
-                                         `Activity`=list("UHnemployed","HEmployed"),
-                                         "Size","NKids","NInfants"),
+                                    varlist,
                                     selected="HEduYears",
                                     multiple=TRUE)
                     ),
                     box(status="primary", solidHeader = TRUE,
-                        title = "دسته‌بندی با",
-                        selectInput("slcT2Grp","دسته‌بندی با",
+                        title = "دستهبندی با",
+                        selectInput("slcT2Grp","دستهبندی با",
                                     list("HSex","Region","ProvinceCode"),
                                     selected = "Region",
                                     multiple = TRUE)
@@ -76,8 +89,24 @@ body <- dashboardBody(dir="rtl",
 
         ),
 
+        tabItem(tabName = "hhexpstats",
+                textInput(inputId="searchinput",label="جستجو",value=""),
+                shinyTree("treeExp",
+                          checkbox = TRUE,
+                          search = "searchinput",
+                          dragAndDrop = FALSE,
+                          wholerow = TRUE,
+                          multiple = TRUE),
+                hr(),
+                "Currently Selected:",
+                verbatimTextOutput("sel_names"),
+                verbatimTextOutput("sel_slices"),
+                verbatimTextOutput("sel_classid")
+        ),
+
+
         tabItem(tabName = "housestats",
-                h2("آماره‌های ویژگی‌های مسکن در اینجا!"))
+                h2("آمارههای ویژگیهای مسکن در اینجا!"))
     )
 )
 

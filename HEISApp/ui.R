@@ -71,7 +71,9 @@ body <- dashboardBody(dir="rtl",
                     box(status="primary", solidHeader = TRUE,
                         title = "دستهبندی با",
                         selectInput("slcT2Grp","دستهبندی با",
-                                    list("HSex","Region","ProvinceCode"),
+                                    list("HSex","Region","ProvinceCode",
+                                    "HMarritalState","HActivityState",
+                                    "HEduLevel"),
                                     selected = "Region",
                                     multiple = TRUE)
                     ),

@@ -91,7 +91,7 @@ app_server <- function(input, output,session) {
         gs <- input$slcT2Grp
         st <- input$slcT2Stat
 
-        fn <- paste0("data/Y",substr(y,3,4),"Merged4CBN.rda")
+        fn <- paste0("data/Y",substr(y,3,4),"MergedData.rda")
         load(fn)
 
         fnc <- get(st)
@@ -111,7 +111,7 @@ app_server <- function(input, output,session) {
         gs <- input$slcT2Grp
         st <- input$slcT2Stat
 
-        fn <- paste0("data/Y",substr(y,3,4),"Merged4CBN.rda")
+        fn <- paste0("data/Y",substr(y,3,4),"MergedData.rda")
         load(fn)
 
         fnc <- get(st)

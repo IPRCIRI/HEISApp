@@ -51,13 +51,15 @@ body <- dashboardBody(dir="rtl",
                 h2("آمارههای افراد در اینجا!")
         ),
 
-        # Second tab content
+
+        # First tab content
         tabItem(tabName = "hhdemostats",
                 fluidRow(
                     box(status = "primary",solidHeader = TRUE,
                         title = "انتخاب سال",
                         selectInput(inputId="slcT2Year",label="سال",
-                                    choices=list(1396,1397))
+                                    choices=list(1390,1391,1392,1393,
+                                                 1394,1395,1396,1397))
                     ),
                     box(status = "primary", solidHeader =TRUE,
                         title = "انتخاب متغیرها",
@@ -76,7 +78,8 @@ body <- dashboardBody(dir="rtl",
                     box(status="primary", solidHeader = TRUE,
                         title = "آماره",
                         selectInput("slcT2Stat","آماره",
-                                    list("mean","median","min","max"),
+                                    list("mean","median","min","max",
+                                         "var","sd","range","sum","IQR"),
                                     selected = "mean",
                                     multiple = FALSE)
                     ),
@@ -110,6 +113,15 @@ body <- dashboardBody(dir="rtl",
     )
 )
 
+
+       # Forth tab content
+        tabItem(tabName = "Expendituresstats",
+                h2("آماره‌های هزینه ها در اینجا!")),
+
+
+       # Fifth tab content
+        tabItem(tabName = "Incomesstats",
+                h2("آماره‌های درامدها در اینجا!"))
+)
+)
 dashboardPage(header, sidebar, body)
-
-

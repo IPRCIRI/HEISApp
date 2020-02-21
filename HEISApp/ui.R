@@ -48,7 +48,7 @@ body <- dashboardBody(dir="rtl",
     tabItems(
         # First tab content
         tabItem(tabName = "indivdemostats",
-                h2("آمارههای افراد در اینجا!")
+                h2("آماره های افراد در اینجا")
         ),
 
 
@@ -69,8 +69,8 @@ body <- dashboardBody(dir="rtl",
                                     multiple=TRUE)
                     ),
                     box(status="primary", solidHeader = TRUE,
-                        title = "دستهبندی با",
-                        selectInput("slcT2Grp","دستهبندی با",
+                        title = "دسته بندی با",
+                        selectInput("slcT2Grp","دسته بندی با",
                                     list("HSex","Region","ProvinceCode",
                                     "HMarritalState","HActivityState",
                                     "HEduLevel"),
@@ -111,19 +111,18 @@ body <- dashboardBody(dir="rtl",
 
 
         tabItem(tabName = "housestats",
-                h2("آمارههای ویژگیهای مسکن در اینجا!"))
-    )
-)
+                h2("آماره های مسکن در اینجا")),
+
 
 
        # Forth tab content
         tabItem(tabName = "Expendituresstats",
-                h2("آماره‌های هزینه ها در اینجا!")),
+                h2("آماره های هزینه ها در اینجا")),
 
 
        # Fifth tab content
         tabItem(tabName = "Incomesstats",
-                h2("آماره‌های درامدها در اینجا!"))
+                h2("آماره های درامدها در اینجا"))
 )
 )
 dashboardPage(header, sidebar, body)

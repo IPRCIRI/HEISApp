@@ -628,15 +628,15 @@ app_server <- function(input, output,session) {
         gs <- input$slcT2Grp
         st <- input$slcT2Stat
 
-        fn <- paste0("data/Y",substr(y,3,4),"MergedData.rda")
+        fn <- paste0("data/Y",substr(y,3,4),"TotalFoodExp.rda")
         load(fn)
 
         fnc <- get(st)
         vss <- vs
-        for(v in names(MergedData)){
+        for(v in names(TotalFoodExp)){
             vss[vss==i18n$t(v)]=v
         }
-        SD <- MergedData[,lapply(.SD,fnc), by=gs,.SDcols=vss]
+        SD <- TotalFoodExp[,lapply(.SD,fnc), by=gs,.SDcols=vss]
         setnames(SD,vss,vs)
         SD
     })
@@ -648,13 +648,13 @@ app_server <- function(input, output,session) {
         gs <- input$slcT2Grp
         st <- input$slcT2Stat
 
-        fn <- paste0("data/Y",substr(y,3,4),"MergedData.rda")
+        fn <- paste0("data/Y",substr(y,3,4),"TotalFoodExp.rda")
         load(fn)
 
         fnc <- get(st)
 
         vs[vs==i18n$t("HLiterate")]="HLiterate"
-        SD <- MergedData[,lapply(.SD,fnc), by=gs,.SDcols=vs]
+        SD <- TotalFoodExp[,lapply(.SD,fnc), by=gs,.SDcols=vs]
 
         if(length(gs)>1){
             SD[,NewVar:=do.call(paste0,.SD),.SDcols=gs]

@@ -10,8 +10,9 @@ i18n$set_translation_language("fa")
 varlist <- list(`Education`=list(i18n$t("HLiterate"),"HStudent","HEduYears"),
                 `Activity`=list("UHnemployed","HEmployed"),
                 "Size","NKids","NInfants")
-names(varlist)[names(varlist)=="Education"] <- i18n$t("Education")
-
+for(n in names(varlist)){
+    names(varlist)[names(varlist)==n] <- i18n$t(n)
+}
 header <- dashboardHeader(title = i18n$t("title")
                           # ,dropdownMenu(type = "messages",
                           #   messageItem(
